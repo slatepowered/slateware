@@ -5,6 +5,8 @@ import slatepowered.slate.model.NodeBuilder;
 import slatepowered.slate.model.NodeBuilderAdapter;
 import slatepowered.slate.model.NodeComponent;
 import slatepowered.slate.packages.Packages;
+import slatepowered.slateware.node.NodePowerControl;
+import slatepowered.slateware.node.NodePowerService;
 import slatepowered.slateware.packages.LibraryPackages;
 
 /**
