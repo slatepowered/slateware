@@ -1,0 +1,4 @@
+rootProject.name = 'slateware'
+include 'slateware-commons'
+include 'slateware-waterfall'
+

@@ -1,0 +1,2 @@
+https://jitpack.io/com/github/slatepowered/slateware/slateware-commons/@version@/slateware-commons-@version@.jar
+https://jitpack.io/com/github/slatepowered/slateware/slateware-waterfall/@version@/slateware-waterfall-@version@.jar
