@@ -1,4 +1,6 @@
 rootProject.name = 'slateware'
 include 'slateware-commons'
 include 'slateware-waterfall'
+include 'slateware-core-cluster'
+include 'slateware-velocity'
 

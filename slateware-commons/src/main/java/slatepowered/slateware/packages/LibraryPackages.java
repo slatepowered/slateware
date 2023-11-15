@@ -21,7 +21,7 @@ public final class LibraryPackages {
      * downloading package of all the files and sets up the
      * immediate load.
      */
-    public static TargetedPackageAttachment<LocalFilesPackage> all(Class<?> srcClass, String resource) {
+    public static PackageAttachment<LocalFilesPackage> all(Class<?> srcClass, String resource) {
         try {
             InputStream stream = srcClass.getResourceAsStream(resource);
             if (stream == null)
@@ -30,6 +30,8 @@ public final class LibraryPackages {
             String content = new String(IOUtil.readAllBytes(stream), StandardCharsets.UTF_8);
             stream.close();
 
+            String[] split; // re-usable variable
+
             // parse content
             List<Pair<String, String>> files = new ArrayList<>();
             List<String> fileNames = new ArrayList<>();
@@ -37,12 +39,24 @@ public final class LibraryPackages {
                 String url = line.split("=")[0];
                 String filename = line.split("=")[1];
 
+                // process `jitpack:` URL specifier
+                if (url.startsWith("jitpack:")) {
+                    String artifactSpec = url.substring("jitpack:".length());
+                    split = artifactSpec.split(":");
+                    String artifactName = split[0];
+                    String artifactVersion = split[1];
+                    split = artifactName.split("\\.");
+                    String artifactSimpleName = split[split.length - 1];
+
+                    url = "https://jitpack.io/" + artifactName.replace('.', '/') + "/" + artifactVersion + "/" +
+                            (artifactSimpleName + "-" + artifactVersion + ".jar");
+                }
+
                 files.add(Pair.of(url, filename));
                 fileNames.add(filename);
             }
 
-            return Packages.loadLibrariesImmediate(Packages.download(files), fileNames.toArray(new String[0]))
-                    .targeted(PackageTarget.HOST);
+            return Packages.loadImmediate(Packages.download(files), fileNames.toArray(new String[0]));
         } catch (Throwable t) {
             Throwables.sneakyThrow(t);
             throw new AssertionError();

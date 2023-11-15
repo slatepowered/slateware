@@ -13,7 +13,9 @@ import java.util.concurrent.CompletableFuture;
 public interface NodePowerControl extends RemoteObject<NodePowerService>, NodeComponent {
 
     @UID
-    String nodeName();
+    default String nodeName() {
+        return null;
+    }
 
     /**
      * Start this node.

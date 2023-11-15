@@ -1,0 +1,11 @@
+{
+  "name": "SlatewareVelocity",
+  "id": "slateware.velocity",
+  "version": "@version@",
+  "entrypoints": [
+    {
+      "class": "slatepowered.slateware.velocity.VelocityClusterPlugin",
+      "*env": "cluster"
+    }
+  ]
+}

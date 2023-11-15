@@ -7,6 +7,7 @@ import slatepowered.slate.model.ManagedNode;
 import slatepowered.slate.model.Network;
 import slatepowered.slate.service.Service;
 import slatepowered.slate.service.ServiceKey;
+import slatepowered.slate.service.remote.LocalRemoteServiceKey;
 import slatepowered.slate.service.remote.RemoteServiceKey;
 
 import java.util.concurrent.CompletableFuture;
@@ -17,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public interface NodePowerService extends Service, RemoteAPI {
 
-    ServiceKey<NodePowerService> KEY = ServiceKey.local(NodePowerService.class);
+    LocalRemoteServiceKey<NodePowerService> KEY = LocalRemoteServiceKey.key(NodePowerService.class);
 
     static RemoteServiceKey<NodePowerService> remote() {
         return RemoteServiceKey.remote(NodePowerService.class);
@@ -47,6 +48,15 @@ public interface NodePowerService extends Service, RemoteAPI {
         return null;
     }
 
+    /**
+     * Get the node power control instance for the given
+     * node on this cluster.
+     *
+     * @param nodeName The name of the node.
+     * @return The power control instance.
+     */
+    NodePowerControl forNode(String nodeName);
+
     static NodePowerService impl(Network network) {
         return new NodePowerService() {
             @Override
@@ -59,6 +69,11 @@ public interface NodePowerService extends Service, RemoteAPI {
             public void stop(String nodeName) {
                 ManagedNode node = network.getNode(nodeName);
                 node.runVoidAction(NodePowerControl.class, (nodePowerControl, node1) -> CompletableFuture.runAsync(nodePowerControl::stop), null);
+            }
+
+            @Override
+            public NodePowerControl forNode(String nodeName) {
+                return null;
             }
         };
     }

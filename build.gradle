@@ -40,7 +40,7 @@ subprojects {
     ext {
         VERU_COMMIT  = "0819f12"
         RECO_COMMIT  = "9af31c4"
-        SLATE_COMMIT = "c3e2d82"
+        SLATE_COMMIT = "25a9cdb"
     }
 
     group = rootProject.group
@@ -73,6 +73,7 @@ subprojects {
         maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
         maven { url = 'https://oss.sonatype.org/content/repositories/central' }
         maven { url = 'https://jitpack.io' }
+        maven { url = 'https://repo.papermc.io/repository/maven-public/' }
     }
 
     task("install") {

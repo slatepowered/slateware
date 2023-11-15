@@ -1,0 +1,11 @@
+{
+  "name": "SlatewareWaterfall",
+  "id": "slateware.waterfall",
+  "version": "@version@",
+  "entrypoints": [
+    {
+      "class": "slatepowered.slateware.waterfall.ClusterPlugin",
+      "*env": "cluster"
+    }
+  ]
+}
