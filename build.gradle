@@ -40,7 +40,7 @@ subprojects {
     ext {
         VERU_COMMIT  = "0819f12"
         RECO_COMMIT  = "9af31c4"
-        SLATE_COMMIT = "25a9cdb"
+        SLATE_COMMIT = "8b9fb23"
     }
 
     group = rootProject.group

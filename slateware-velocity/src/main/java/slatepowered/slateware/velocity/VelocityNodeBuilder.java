@@ -34,23 +34,18 @@ public class VelocityNodeBuilder extends NodeBuilderAdapter {
         nodeBuilder.attach(Packages.jdk(javaVersion).attachment());
         nodeBuilder.attach(component = new VelocityNodeComponent());
 
-        nodeBuilder.attach(new NodeComponent() {
-            @Override
-            public boolean attached(ManagedNode node) {
-                // todo: fetch latest version and build number if none
-                //  are specified explicitly, preferably do this when
-                //  the package is installed on the node and not here
-                //  this could be done with a ResolvedPackageKeyUnion impl
+        nodeBuilder.then(node -> {
+            // todo: fetch latest version and build number if none
+            //  are specified explicitly, preferably do this when
+            //  the package is installed on the node and not here
+            //  this could be done with a ResolvedPackageKeyUnion impl
 
-                String url = "https://api.papermc.io/v2/projects/velocity/versions/" + velocityVersion +
-                        "/builds/" + buildNumber + "/downloads/" +
-                        "velocity-" + velocityVersion + "-" + buildNumber + ".jar";
+            String url = "https://api.papermc.io/v2/projects/velocity/versions/" + velocityVersion +
+                    "/builds/" + buildNumber + "/downloads/" +
+                    "velocity-" + velocityVersion + "-" + buildNumber + ".jar";
 
-                // attach components
-                node.attach(Packages.linkFiles(Packages.download(url, "file"), (dir, p) -> dir.resolve("proxy.jar")));
-
-                return false;
-            }
+            // attach components
+            node.attach(Packages.linkFiles(Packages.download(url, "file"), (dir, p) -> dir.resolve("proxy.jar")));
         });
     }
 
@@ -84,6 +79,17 @@ public class VelocityNodeBuilder extends NodeBuilderAdapter {
      */
     public VelocityNodeBuilder javaVersion(JavaVersion javaVersion) {
         this.javaVersion = javaVersion;
+        return this;
+    }
+
+    /**
+     * Set the port which the proxy will bind to.
+     *
+     * @param port The port.
+     * @return This.
+     */
+    public VelocityNodeBuilder port(int port) {
+        component.port(port);
         return this;
     }
 

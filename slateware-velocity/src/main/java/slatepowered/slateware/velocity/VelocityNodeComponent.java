@@ -1,5 +1,6 @@
 package slatepowered.slateware.velocity;
 
+import lombok.Builder;
 import slatepowered.slate.model.ClusterNetwork;
 import slatepowered.slate.model.ManagedNode;
 import slatepowered.slate.model.SharedNodeComponent;
@@ -8,6 +9,11 @@ import slatepowered.slate.model.SharedNodeComponent;
  * The data component which holds information about the Velocity installation.
  */
 public class VelocityNodeComponent implements SharedNodeComponent {
+
+    /**
+     * The port the server should bind to.
+     */
+    private int port;
 
     @Override
     public boolean attached(ManagedNode node) {
@@ -18,6 +24,19 @@ public class VelocityNodeComponent implements SharedNodeComponent {
         }
 
         return true;
+    }
+
+    /*
+        Trivial getters and setters.
+     */
+
+    public VelocityNodeComponent port(int port) {
+        this.port = port;
+        return this;
+    }
+
+    public int getPort() {
+        return port;
     }
 
 }
