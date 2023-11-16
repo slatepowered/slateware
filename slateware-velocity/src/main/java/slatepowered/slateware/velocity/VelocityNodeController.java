@@ -2,16 +2,24 @@ package slatepowered.slateware.velocity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import slatepowered.slate.action.NodeAllocationAdapter;
+import slatepowered.slate.cluster.ClusterInstance;
+import slatepowered.slate.model.ClusterManagedNode;
 import slatepowered.slate.model.ManagedNode;
 import slatepowered.slate.model.NodeComponent;
+import slatepowered.slate.packages.PackageManager;
+import slatepowered.slate.packages.local.LocalJavaPackage;
 import slatepowered.slateware.node.NodePowerControl;
 import slatepowered.veru.misc.Throwables;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * This component is installed on the cluster/node host exclusively.
  */
 @RequiredArgsConstructor
-public class VelocityNodeController implements NodeComponent, NodePowerControl {
+public class VelocityNodeController implements NodeComponent, NodePowerControl, NodeAllocationAdapter {
 
     /**
      * The Velocity node data component.
@@ -41,8 +49,14 @@ public class VelocityNodeController implements NodeComponent, NodePowerControl {
     @Override
     public void start() {
         try {
-            // todo: start java process with correct arguments
-            //  and the proxy.jar file
+            LocalJavaPackage javaPackage = node.findComponents(LocalJavaPackage.class).first()
+                    .orElseThrow(() -> new IllegalArgumentException("No Java package attached to this node, can not start process"));
+            ClusterManagedNode clusterManagedNode = (ClusterManagedNode) node;
+
+            process = new ProcessBuilder()
+                    .command("\"" + javaPackage.getJavaBinary().toAbsolutePath() + "\"", "-jar", "proxy.jar")
+                    .directory(clusterManagedNode.getAllocation().getDirectory().toFile())
+                    .start();
         } catch (Throwable t) {
             Throwables.sneakyThrow(t);
         }
@@ -51,7 +65,28 @@ public class VelocityNodeController implements NodeComponent, NodePowerControl {
     @Override
     public void stop() {
         try {
-            // todo: stop the java process
+            if (process.isAlive()) {
+                // stop the process
+                process.destroy();
+            }
+        } catch (Throwable t) {
+            Throwables.sneakyThrow(t);
+        }
+    }
+
+    @Override
+    public void initialize(PackageManager packageManager, ManagedNode node, Path nodePath) {
+        try {
+            ClusterInstance clusterInstance = node.getNetwork();
+            Path librariesShareDirectory = clusterInstance.getCluster().getClusterDirectory().resolve("libraries");
+            if (!Files.exists(librariesShareDirectory)) {
+                Files.createDirectories(librariesShareDirectory);
+            }
+
+            // write config and create/link directories
+            VelocityConfigFactory.writeConfig(dataComponent, nodePath.resolve("velocity.toml"));
+            Files.createDirectories(nodePath.resolve("plugins"));
+            Files.createSymbolicLink(librariesShareDirectory, nodePath.resolve("libraries"));
         } catch (Throwable t) {
             Throwables.sneakyThrow(t);
         }

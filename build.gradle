@@ -38,9 +38,9 @@ subprojects {
     apply plugin: "java-library"
 
     ext {
-        VERU_COMMIT  = "0819f12"
+        VERU_COMMIT  = "d950de2"
         RECO_COMMIT  = "9af31c4"
-        SLATE_COMMIT = "8b9fb23"
+        SLATE_COMMIT = "8eabe6d"
     }
 
     group = rootProject.group

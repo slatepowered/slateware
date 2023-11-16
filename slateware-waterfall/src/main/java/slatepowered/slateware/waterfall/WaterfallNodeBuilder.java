@@ -5,9 +5,7 @@ import slatepowered.slate.model.NodeBuilder;
 import slatepowered.slate.model.NodeBuilderAdapter;
 import slatepowered.slate.model.NodeComponent;
 import slatepowered.slate.packages.Packages;
-import slatepowered.slateware.node.NodePowerControl;
-import slatepowered.slateware.node.NodePowerService;
-import slatepowered.slateware.packages.LibraryPackages;
+import slatepowered.slateware.packages.SoftwarePackages;
 
 /**
  * Helper for creating Waterfall nodes.
@@ -28,7 +26,7 @@ public class WaterfallNodeBuilder extends NodeBuilderAdapter {
 
         // make sure the cluster has the waterfall support
         // library loaded so the components can be deserialized
-        nodeBuilder.attach(LibraryPackages.all(WaterfallNodeBuilder.class, "slateware.waterfall.libs.txt"));
+        nodeBuilder.attach(SoftwarePackages.all(WaterfallNodeBuilder.class, "slateware.waterfall.libs.txt"));
         nodeBuilder.attach(component = new WaterfallNodeComponent());
 
         nodeBuilder.attach(new NodeComponent() {

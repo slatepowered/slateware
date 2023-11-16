@@ -4,8 +4,13 @@ dependencies {
     compileOnlyApi "com.github.slatepowered.slate:slate-common:${project.SLATE_COMMIT}"
     compileOnlyApi "com.github.slatepowered.slate:slate-master:${project.SLATE_COMMIT}"
     api "com.github.slatepowered.veru:veru-java8:${project.VERU_COMMIT}"
+    api "com.github.slatepowered.veru:veru-config:${project.VERU_COMMIT}"
     api "com.github.slatepowered.reco:reco-core:${project.RECO_COMMIT}"
     api "com.github.slatepowered.reco:reco-rpc:${project.RECO_COMMIT}"
+
+    // net.kyori.adventure
+    compileOnlyApi 'net.kyori:adventure-api:4.14.0'
+    compileOnlyApi 'net.kyori:adventure-text-minimessage:4.14.0'
 
     testImplementation "com.github.slatepowered.slate:slate-communication-rmq:${project.SLATE_COMMIT}"
     testImplementation "com.github.slatepowered.reco:reco-core-rmq:${project.RECO_COMMIT}"

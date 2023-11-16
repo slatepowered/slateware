@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class LibraryPackages {
+public final class SoftwarePackages {
 
     /**
      * Reads the text file from the resource, then sets up a
@@ -36,8 +36,8 @@ public final class LibraryPackages {
             List<Pair<String, String>> files = new ArrayList<>();
             List<String> fileNames = new ArrayList<>();
             for (String line : content.split("\n")) {
-                String url = line.split("=")[0];
-                String filename = line.split("=")[1];
+                String url = line.split("=")[0].trim();
+                String filename = line.split("=")[1].trim();
 
                 // process `jitpack:` URL specifier
                 if (url.startsWith("jitpack:")) {

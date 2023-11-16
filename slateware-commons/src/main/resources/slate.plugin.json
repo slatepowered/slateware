@@ -1,0 +1,10 @@
+{
+  "name": "SlatewareCommons",
+  "id": "com.github.slatepowered.slateware.commons",
+  "version": "@version@",
+  "entrypoints": [
+    {
+      "class": "slatepowered.slateware.cluster.SlatewareClusterInitializer"
+    }
+  ]
+}

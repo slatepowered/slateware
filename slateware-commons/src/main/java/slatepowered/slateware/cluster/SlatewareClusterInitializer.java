@@ -10,7 +10,7 @@ import slatepowered.slateware.node.NodePowerService;
 /**
  * The Slateware cluster plugin entrypoint.
  */
-public class SlatewareClusterBootstrap implements PluginEntrypoint<ClusterInstance> {
+public class SlatewareClusterInitializer implements PluginEntrypoint<ClusterInstance> {
 
     @Override
     public void onInitialize(SlatePlugin plugin, ClusterInstance network) {
@@ -33,7 +33,9 @@ public class SlatewareClusterBootstrap implements PluginEntrypoint<ClusterInstan
                 // todo: check whether the node exists and is a
                 //  valid managed node (so also not null), rn it just throws
                 //  some cryptic error which is hard to decode by the caller
-                return network.<ManagedNode>getNode(nodeName).findComponents(NodePowerControl.class).first().orElse(null);
+                return network.<ManagedNode>getNode(nodeName)
+                        .findComponents(NodePowerControl.class)
+                        .first().orElse(null);
             }
         });
     }

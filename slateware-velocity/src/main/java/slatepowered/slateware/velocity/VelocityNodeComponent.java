@@ -1,9 +1,15 @@
 package slatepowered.slateware.velocity;
 
 import lombok.Builder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.ComponentSerializer;
 import slatepowered.slate.model.ClusterNetwork;
 import slatepowered.slate.model.ManagedNode;
 import slatepowered.slate.model.SharedNodeComponent;
+import slatepowered.veru.config.Section;
+
+import java.util.HashMap;
 
 /**
  * The data component which holds information about the Velocity installation.
@@ -11,9 +17,43 @@ import slatepowered.slate.model.SharedNodeComponent;
 public class VelocityNodeComponent implements SharedNodeComponent {
 
     /**
+     * Any miscellaneous configuration overrides.
+     */
+    public Section configOverride = Section.memory(new HashMap<>());
+
+    /**
+     * The address host to bind to.
+     */
+    public String address = "127.0.0.1";
+
+    /**
      * The port the server should bind to.
      */
-    private int port;
+    public int port;
+
+    /**
+     * Whether online mode should be on.
+     */
+    public boolean onlineMode = true;
+
+    /**
+     * The forwarding mode.
+     */
+    public VelocityForwarding forwardingMode;
+
+    /**
+     * The displayed max players in the query response.
+     */
+    public int showMaxPlayers = 0;
+
+    /**
+     * The MOTD component.
+     */
+    public Component motd = Component.text("A ").color(NamedTextColor.GRAY)
+            .append(Component.text("Slate ").color(NamedTextColor.RED))
+            .append(Component.text("+ ").color(NamedTextColor.GRAY))
+            .append(Component.text("Velocity ").color(NamedTextColor.AQUA))
+            .append(Component.text("powered server.").color(NamedTextColor.GRAY));
 
     @Override
     public boolean attached(ManagedNode node) {
@@ -24,19 +64,6 @@ public class VelocityNodeComponent implements SharedNodeComponent {
         }
 
         return true;
-    }
-
-    /*
-        Trivial getters and setters.
-     */
-
-    public VelocityNodeComponent port(int port) {
-        this.port = port;
-        return this;
-    }
-
-    public int getPort() {
-        return port;
     }
 
 }

@@ -1,11 +1,10 @@
 {
   "name": "SlatewareVelocity",
-  "id": "slateware.velocity",
+  "id": "com.github.slatepowered.slateware.velocity",
   "version": "@version@",
   "entrypoints": [
     {
-      "class": "slatepowered.slateware.velocity.VelocityClusterPlugin",
-      "*env": "cluster"
+      "class": "slatepowered.slateware.velocity.VelocityClusterPlugin"
     }
   ]
 }
